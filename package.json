@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:news": "node scripts/test-news-api.js",
+    "test:news:all": "node scripts/test-news-api.js --api=all",
+    "test:news:real": "node scripts/test-news-api.js --mode=real"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.12",
@@ -21,6 +24,7 @@
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
     "autoprefixer": "^10.4.21",
+    "dotenv": "^16.4.7",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",

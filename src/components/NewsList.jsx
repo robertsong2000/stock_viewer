@@ -2,6 +2,7 @@ import React from 'react';
 import NewsItem from './NewsItem.jsx';
 import LoadingSpinner from './LoadingSpinner.jsx';
 import ErrorMessage from './ErrorMessage.jsx';
+import NewsSourceIndicator from './NewsSourceIndicator.jsx';
 
 const NewsList = ({ news, loading, error, stockName, onRetry }) => {
   // 如果没有选择股票，显示提示信息
@@ -25,13 +26,20 @@ const NewsList = ({ news, loading, error, stockName, onRetry }) => {
     <div className="space-y-6">
       {/* 新闻列表标题 */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">
-            {stockName ? `${stockName} 相关新闻` : '股票新闻'}
-          </h2>
+        <div className="flex-1">
+          <div className="flex items-center space-x-3">
+            <h2 className="text-2xl font-bold text-gray-900">
+              {stockName ? `${stockName} 相关新闻` : '股票新闻'}
+            </h2>
+            <NewsSourceIndicator className="hidden sm:flex" />
+          </div>
           <p className="text-sm text-gray-500 mt-1">
             为您提供最新、最准确的股票相关资讯
           </p>
+          {/* 移动端显示数据源状态 */}
+          <div className="sm:hidden mt-2">
+            <NewsSourceIndicator />
+          </div>
         </div>
         
         {/* 刷新按钮 */}

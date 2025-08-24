@@ -1,6 +1,19 @@
 import axios from 'axios';
 import { mockNews, generateMockNews } from './mockData.js';
 
+// 检查是否启用增强新闻服务
+const USE_ENHANCED_SERVICE = process.env.REACT_APP_NEWS_MODE && process.env.REACT_APP_NEWS_MODE !== 'mock';
+
+// 动态导入增强服务
+let EnhancedNewsService;
+if (USE_ENHANCED_SERVICE) {
+  try {
+    EnhancedNewsService = await import('./EnhancedNewsService.js').then(module => module.default);
+  } catch (error) {
+    console.warn('增强新闻服务加载失败，使用默认服务:', error);
+  }
+}
+
 // 创建axios实例
 const api = axios.create({
   baseURL: '/api',
@@ -12,9 +25,17 @@ class NewsService {
    * 获取指定股票的相关新闻
    * @param {string} stockCode 股票代码
    * @param {number} limit 返回新闻数量限制，默认10条
-   * @returns {Promise<{data: News[], total: number}>}
+   * @returns {Promise<{data: News[], total: number, source?: string}>}
    */
   static async getStockNews(stockCode, limit = 10) {
+    // 如果启用了增强服务，优先使用增强服务
+    if (EnhancedNewsService) {
+      try {
+        return await EnhancedNewsService.getStockNews(stockCode, limit);
+      } catch (error) {
+        console.warn('增强新闻服务失败，回退到默认服务:', error);
+      }
+    }
     try {
       // 模拟API延迟
       await new Promise(resolve => setTimeout(resolve, 150 + Math.random() * 250));
@@ -42,7 +63,8 @@ class NewsService {
       
       return {
         data: limitedNews,
-        total: newsData.length
+        total: newsData.length,
+        source: 'mock'
       };
     } catch (error) {
       console.error('获取股票新闻失败:', error);
@@ -76,9 +98,17 @@ class NewsService {
   /**
    * 获取新闻详情
    * @param {string} newsId 新闻ID
-   * @returns {Promise<News>}
+   * @returns {Promise<{data: News, total: number, source?: string}>}
    */
   static async getNewsDetail(newsId) {
+    // 如果启用了增强服务，优先使用增强服务
+    if (EnhancedNewsService) {
+      try {
+        return await EnhancedNewsService.getNewsDetail(newsId);
+      } catch (error) {
+        console.warn('增强新闻服务获取详情失败，回退到默认服务:', error);
+      }
+    }
     try {
       // 模拟API延迟
       await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
@@ -89,7 +119,8 @@ class NewsService {
         if (news) {
           return {
             data: news,
-            total: 1
+            total: 1,
+            source: 'mock'
           };
         }
       }
@@ -105,9 +136,17 @@ class NewsService {
    * 搜索新闻
    * @param {string} keyword 搜索关键词
    * @param {number} limit 返回数量限制
-   * @returns {Promise<{data: News[], total: number}>}
+   * @returns {Promise<{data: News[], total: number, source?: string}>}
    */
   static async searchNews(keyword, limit = 20) {
+    // 如果启用了增强服务，优先使用增强服务
+    if (EnhancedNewsService) {
+      try {
+        return await EnhancedNewsService.searchNews(keyword, limit);
+      } catch (error) {
+        console.warn('增强新闻服务搜索失败，回退到默认服务:', error);
+      }
+    }
     try {
       // 模拟API延迟
       await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
@@ -115,7 +154,8 @@ class NewsService {
       if (!keyword || keyword.trim() === '') {
         return {
           data: [],
-          total: 0
+          total: 0,
+          source: 'empty'
         };
       }
       
@@ -138,7 +178,8 @@ class NewsService {
       
       return {
         data: filteredNews.slice(0, limit),
-        total: filteredNews.length
+        total: filteredNews.length,
+        source: 'mock'
       };
     } catch (error) {
       console.error('搜索新闻失败:', error);
