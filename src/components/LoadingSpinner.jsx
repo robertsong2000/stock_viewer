@@ -15,8 +15,8 @@ const LoadingSpinner = ({
 
   // 颜色样式映射
   const colorClasses = {
-    primary: 'text-primary',
-    secondary: 'text-secondary',
+    primary: 'text-blue-600',
+    secondary: 'text-gray-600',
     gray: 'text-gray-500',
     white: 'text-white'
   };
@@ -60,7 +60,7 @@ const LoadingSpinner = ({
 const InlineLoader = ({ size = 'small', className = '' }) => {
   return (
     <div className={`inline-flex items-center space-x-2 ${className}`}>
-      <div className={`${size === 'small' ? 'w-4 h-4' : 'w-5 h-5'} text-primary animate-spin`}>
+      <div className={`${size === 'small' ? 'w-4 h-4' : 'w-5 h-5'} text-blue-600 animate-spin`}>
         <svg 
           className="w-full h-full" 
           fill="none" 

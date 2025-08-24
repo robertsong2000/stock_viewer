@@ -16,7 +16,7 @@ class StockService {
   static async searchStocks(searchTerm) {
     try {
       // 模拟API延迟
-      await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 500));
+      await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
       
       if (!searchTerm || searchTerm.trim() === '') {
         return {
@@ -49,7 +49,7 @@ class StockService {
   static async getStockInfo(stockCode) {
     try {
       // 模拟API延迟
-      await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
+      await new Promise(resolve => setTimeout(resolve, 50 + Math.random() * 100));
       
       const stock = mockStocks.find(s => s.code === stockCode);
       
@@ -75,7 +75,7 @@ class StockService {
   static async getHotStocks(limit = 10) {
     try {
       // 模拟API延迟
-      await new Promise(resolve => setTimeout(resolve, 400 + Math.random() * 600));
+      await new Promise(resolve => setTimeout(resolve, 150 + Math.random() * 250));
       
       // 随机排序，模拟热门股票
       const shuffledStocks = [...mockStocks].sort(() => Math.random() - 0.5);
