@@ -106,7 +106,7 @@ const StockSelector = ({ onStockSelect, selectedStock }) => {
 
   // 格式化股票显示
   const formatStockDisplay = (stock) => {
-    const changeColor = stock.change >= 0 ? 'text-success' : 'text-error';
+    const changeColor = stock.change >= 0 ? 'text-green-600' : 'text-red-600';
     const changePrefix = stock.change >= 0 ? '+' : '';
     
     return (
@@ -145,7 +145,7 @@ const StockSelector = ({ onStockSelect, selectedStock }) => {
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           placeholder="搜索股票名称或代码..."
-          className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+          className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
         />
         
         {/* 清除按钮 */}
