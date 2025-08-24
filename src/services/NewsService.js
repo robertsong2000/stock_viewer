@@ -17,7 +17,7 @@ class NewsService {
   static async getStockNews(stockCode, limit = 10) {
     try {
       // 模拟API延迟
-      await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
+      await new Promise(resolve => setTimeout(resolve, 150 + Math.random() * 250));
       
       if (!stockCode) {
         throw new Error('股票代码不能为空');
@@ -81,7 +81,7 @@ class NewsService {
   static async getNewsDetail(newsId) {
     try {
       // 模拟API延迟
-      await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 400));
+      await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
       
       // 在所有新闻中搜索
       for (const stockCode in mockNews) {
@@ -110,7 +110,7 @@ class NewsService {
   static async searchNews(keyword, limit = 20) {
     try {
       // 模拟API延迟
-      await new Promise(resolve => setTimeout(resolve, 600 + Math.random() * 800));
+      await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
       
       if (!keyword || keyword.trim() === '') {
         return {

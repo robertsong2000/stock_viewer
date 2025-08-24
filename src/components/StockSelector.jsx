@@ -27,19 +27,18 @@ const StockSelector = ({ onStockSelect, selectedStock }) => {
 
   // 调试：监听 loading 状态变化
   useEffect(() => {
-    console.log('🔄 loading 状态变化:', loading);
+    if (loading) console.log('⏳ 股票加载中...');
+    else console.log('✅ 股票加载完成');
   }, [loading]);
 
   // 监听防抖后的搜索词变化
   useEffect(() => {
-    console.log('🔄 debouncedSearchTerm 变化:', debouncedSearchTerm, 'isInputFocused:', isInputFocused);
     if (debouncedSearchTerm.trim()) {
-      console.log('🔍 执行搜索股票');
+      console.log('🔍 搜索:', debouncedSearchTerm);
       searchStocks(debouncedSearchTerm);
       setIsDropdownOpen(true);
     } else if (isInputFocused) {
-      // 输入框获得焦点但没有搜索词时，显示热门股票
-      console.log('🔥 输入框焦点但无搜索词，获取热门股票');
+      console.log('🔥 获取热门股票');
       getHotStocks(10);
       setIsDropdownOpen(true);
     }
@@ -75,14 +74,12 @@ const StockSelector = ({ onStockSelect, selectedStock }) => {
 
   // 处理输入框获得焦点
   const handleInputFocus = () => {
-    console.log('🎯 输入框获得焦点, searchTerm:', searchTerm);
+    console.log('🎯 输入框焦点');
     setIsInputFocused(true);
     if (!searchTerm.trim()) {
-      console.log('🔥 无搜索词，获取热门股票');
       getHotStocks(10);
       setIsDropdownOpen(true);
     } else {
-      console.log('🔍 有搜索词，展示下拉菜单');
       setIsDropdownOpen(true);
     }
   };

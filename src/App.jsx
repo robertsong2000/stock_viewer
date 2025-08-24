@@ -25,6 +25,7 @@ function App() {
   // 当选择股票时，自动获取相关新闻
   useEffect(() => {
     if (selectedStock) {
+      console.log('📰 获取', selectedStock.name, '新闻');
       fetchNews(selectedStock.code, 10);
     }
   }, [selectedStock, fetchNews]);

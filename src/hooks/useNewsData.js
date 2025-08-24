@@ -24,23 +24,27 @@ function useNewsData() {
       return;
     }
     
-    if (loading) return; // 防止重复请求
-    
-    setLoading(true);
+    console.log('📰 获取新闻:', stockCode);
+    setLoading(prevLoading => {
+      if (prevLoading) return prevLoading;
+      return true;
+    });
     setError(null);
     
     try {
       const result = await NewsService.getStockNews(stockCode, limit);
+      console.log('✅ 新闻获取成功:', result.data.length, '条');
       setNewsList(result.data);
       setLastUpdated(new Date().toISOString());
     } catch (err) {
-      console.error('获取新闻失败:', err);
+      console.error('❌ 新闻获取失败:', err.message);
       setError(err.message || '获取新闻失败，请稍后重试');
       setNewsList([]);
     } finally {
+      console.log('🏁 新闻加载完成');
       setLoading(false);
     }
-  }, [loading]);
+  }, []); // 移除 loading 依赖
 
   /**
    * 刷新新闻数据
@@ -64,23 +68,30 @@ function useNewsData() {
       return;
     }
     
-    if (loading) return;
-    
-    setLoading(true);
+    console.log('🔍 开始搜索新闻:', keyword);
+    setLoading(prevLoading => {
+      if (prevLoading) {
+        console.log('⚠️ 新闻搜索已在进行中，跳过请求');
+        return prevLoading;
+      }
+      return true;
+    });
     setError(null);
     
     try {
       const result = await NewsService.searchNews(keyword, limit);
+      console.log('✅ 搜索新闻成功:', result);
       setNewsList(result.data);  
       setLastUpdated(new Date().toISOString());
     } catch (err) {
-      console.error('搜索新闻失败:', err);
+      console.error('❌ 搜索新闻失败:', err);
       setError(err.message || '搜索新闻失败，请稍后重试');
       setNewsList([]);
     } finally {
+      console.log('🏁 搜索新闻完成，设置loading为false');
       setLoading(false);
     }
-  }, [loading]);
+  }, []); // 移除 loading 依赖
 
   /**
    * 获取新闻详情

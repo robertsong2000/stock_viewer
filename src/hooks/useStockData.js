@@ -16,26 +16,23 @@ function useStockData() {
    * @param {string} searchTerm 搜索关键词  
    */
   const searchStocks = useCallback(async (searchTerm) => {
-    console.log('🔍 开始搜索股票:', searchTerm);
+    console.log('🔍 搜索股票:', searchTerm);
     setLoading(prevLoading => {
-      if (prevLoading) {
-        console.log('⚠️ 已在加载中，跳过请求');
-        return prevLoading;
-      }
+      if (prevLoading) return prevLoading;
       return true;
     });
     setError(null);
     
     try {
       const result = await StockService.searchStocks(searchTerm);
-      console.log('✅ 搜索股票成功:', result);
+      console.log('✅ 搜索成功:', result.data.length, '只股票');
       setStocks(result.data);
     } catch (err) {
-      console.error('❌ 搜索股票失败:', err);
+      console.error('❌ 搜索失败:', err.message);
       setError(err.message || '搜索股票失败，请稍后重试');
       setStocks([]);
     } finally {
-      console.log('🏁 搜索股票完成，设置loading为false');
+      console.log('🏁 股票搜索完成');
       setLoading(false);
     }
   }, []); // 移除 loading 依赖
@@ -45,26 +42,23 @@ function useStockData() {
    * @param {number} limit 返回数量限制
    */
   const getHotStocks = useCallback(async (limit = 10) => {
-    console.log('🔥 开始获取热门股票, limit:', limit);
+    console.log('🔥 获取热门股票');
     setLoading(prevLoading => {
-      if (prevLoading) {
-        console.log('⚠️ 已在加载中，跳过请求');
-        return prevLoading;
-      }
+      if (prevLoading) return prevLoading;
       return true;
     });
     setError(null);
     
     try {
       const result = await StockService.getHotStocks(limit);
-      console.log('✅ 获取热门股票成功:', result);
+      console.log('✅ 热门股票获取成功:', result.data.length, '只');
       setStocks(result.data);
     } catch (err) {
-      console.error('❌ 获取热门股票失败:', err);
+      console.error('❌ 热门股票获取失败:', err.message);
       setError(err.message || '获取热门股票失败，请稍后重试');
       setStocks([]);
     } finally {
-      console.log('🏁 获取热门股票完成，设置loading为false');
+      console.log('🏁 热门股票加载完成');
       setLoading(false);
     }
   }, []); // 移除 loading 依赖
