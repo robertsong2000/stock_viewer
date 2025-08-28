@@ -11,20 +11,23 @@ import RealNewsService from './RealNewsService.js';
 // 新闻服务配置
 const NEWS_CONFIG = {
   // 数据源模式：'mock' | 'real' | 'hybrid'
-  mode: (typeof process !== 'undefined' ? process.env.REACT_APP_NEWS_MODE : undefined) || (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_MODE : 'mock'),
+  mode: (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_MODE : 'mock') || 'mock',
   
   // 真实新闻API优先级
-  realApiPriority: ['newsapi', 'juhe', 'eastmoney'],
+  apiPriority: ['juhe', 'eastmoney', 'newsapi', 'sina'],
   
   // API密钥配置
   apiKeys: {
-    newsapi: (typeof process !== 'undefined' ? process.env.REACT_APP_NEWS_API_KEY : undefined) || (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_API_KEY : undefined),
-    juhe: (typeof process !== 'undefined' ? process.env.REACT_APP_JUHE_API_KEY : undefined) || (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_JUHE_API_KEY : undefined),
+    newsapi: (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_API_KEY : undefined),
+    juhe: (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_JUHE_API_KEY : undefined),
   },
   
   // 缓存配置
-  cacheEnabled: true,
-  cacheTime: 5 * 60 * 1000, // 5分钟缓存
+  cacheTimeout: 5 * 60 * 1000, // 5分钟
+  
+  // 重试配置
+  maxRetries: 3,
+  retryDelay: 1000, // 1秒
 };
 
 class EnhancedNewsService {

@@ -2,7 +2,7 @@
 import { mockNews, generateMockNews } from './mockData.js';
 
 // 检查是否启用增强新闻服务
-const USE_ENHANCED_SERVICE = import.meta.env.REACT_APP_NEWS_MODE && import.meta.env.REACT_APP_NEWS_MODE !== 'mock';
+const USE_ENHANCED_SERVICE = (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_MODE : undefined) && (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_MODE : undefined) !== 'mock';
 
 // 动态导入增强服务
 let EnhancedNewsService;

@@ -14,7 +14,7 @@ class RealNewsService {
    * 免费额度：每天1000次请求
    */
   async getNewsFromNewsAPI(stockCode, stockName) {
-    const API_KEY = process.env.REACT_APP_NEWS_API_KEY; // 需要在.env文件中设置
+    const API_KEY = (typeof process !== 'undefined' ? process.env.REACT_APP_NEWS_API_KEY : undefined) || (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_API_KEY : undefined); // 需要在.env文件中设置
     
     try {
       const response = await this.api.get('https://newsapi.org/v2/everything', {
@@ -59,7 +59,7 @@ class RealNewsService {
    * 官网：https://www.juhe.cn/
    */
   async getNewsFromJuhe(stockCode) {
-    const API_KEY = process.env.REACT_APP_JUHE_API_KEY;
+    const API_KEY = (typeof process !== 'undefined' ? process.env.REACT_APP_JUHE_API_KEY : undefined) || (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_JUHE_API_KEY : undefined);
     
     try {
       const response = await this.api.get('http://v.juhe.cn/finance/stock/news', {
