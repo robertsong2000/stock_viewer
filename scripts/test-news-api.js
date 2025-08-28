@@ -114,7 +114,7 @@ async function testNewsAPI(stockCode, stockName, limit) {
 }
 
 // 测试聚合数据API
-async function testJuheAPI(stockCode, limit) {
+async function testJuheAPI(stockCode) {
   const apiKey = process.env.REACT_APP_JUHE_API_KEY;
   
   if (!apiKey) {
@@ -156,7 +156,7 @@ async function testJuheAPI(stockCode, limit) {
 }
 
 // 测试东方财富API
-async function testEastMoneyAPI(stockCode, limit) {
+async function testEastMoneyAPI(stockCode) {
   try {
     console.log('🔍 测试东方财富API...');
     
@@ -197,7 +197,7 @@ async function testEastMoneyAPI(stockCode, limit) {
 }
 
 // 测试模拟数据
-async function testMockData(stockCode, limit) {
+async function testMockData(stockCode) {
   console.log('🔍 测试模拟数据...');
   
   // 简单的模拟数据生成

@@ -1,8 +1,8 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { mockNews, generateMockNews } from './mockData.js';
 
 // 检查是否启用增强新闻服务
-const USE_ENHANCED_SERVICE = process.env.REACT_APP_NEWS_MODE && process.env.REACT_APP_NEWS_MODE !== 'mock';
+const USE_ENHANCED_SERVICE = import.meta.env.REACT_APP_NEWS_MODE && import.meta.env.REACT_APP_NEWS_MODE !== 'mock';
 
 // 动态导入增强服务
 let EnhancedNewsService;
@@ -14,11 +14,11 @@ if (USE_ENHANCED_SERVICE) {
   }
 }
 
-// 创建axios实例
-const api = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
-});
+// 创建axios实例（当前未使用，保留以备后续扩展）
+// const api = axios.create({
+//   baseURL: '/api',
+//   timeout: 10000,
+// });
 
 class NewsService {
   /**

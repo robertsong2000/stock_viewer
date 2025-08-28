@@ -58,7 +58,7 @@ class RealNewsService {
    * 方案三：使用聚合数据API
    * 官网：https://www.juhe.cn/
    */
-  async getNewsFromJuhe(stockCode, stockName) {
+  async getNewsFromJuhe(stockCode) {
     const API_KEY = process.env.REACT_APP_JUHE_API_KEY;
     
     try {
@@ -152,7 +152,7 @@ class RealNewsService {
   parseSinaNews(htmlContent, stockCode) {
     // 这里需要使用HTML解析库或正则表达式来提取新闻信息
     // 由于跨域问题，建议使用后端代理
-    console.warn('新浪财经接口需要后端代理或HTML解析');
+    console.warn(`新浪财经接口需要后端代理或HTML解析，股票代码: ${stockCode}`);
     return [];
   }
 }

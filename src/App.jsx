@@ -10,8 +10,7 @@ function App() {
   // 使用自定义Hooks管理状态
   const {
     selectedStock,
-    selectStock,
-    clearSelection
+    selectStock
   } = useStockData();
 
   const {

@@ -1,25 +1,25 @@
-import axios from 'axios';
+// // import axios from 'axios';
 import { mockNews, generateMockNews } from './mockData.js';
 import RealNewsService from './RealNewsService.js';
 
-// 创建axios实例
-const api = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
-});
+// 创建axios实例（已注释，当前未使用）
+// const api = axios.create({
+//   baseURL: '/api',
+//   timeout: 10000,
+// });
 
 // 新闻服务配置
 const NEWS_CONFIG = {
   // 数据源模式：'mock' | 'real' | 'hybrid'
-  mode: process.env.REACT_APP_NEWS_MODE || 'mock',
+  mode: (typeof process !== 'undefined' ? process.env.REACT_APP_NEWS_MODE : undefined) || (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_MODE : 'mock'),
   
   // 真实新闻API优先级
   realApiPriority: ['newsapi', 'juhe', 'eastmoney'],
   
   // API密钥配置
   apiKeys: {
-    newsapi: process.env.REACT_APP_NEWS_API_KEY,
-    juhe: process.env.REACT_APP_JUHE_API_KEY,
+    newsapi: (typeof process !== 'undefined' ? process.env.REACT_APP_NEWS_API_KEY : undefined) || (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_NEWS_API_KEY : undefined),
+    juhe: (typeof process !== 'undefined' ? process.env.REACT_APP_JUHE_API_KEY : undefined) || (typeof import.meta !== 'undefined' ? import.meta.env.REACT_APP_JUHE_API_KEY : undefined),
   },
   
   // 缓存配置
@@ -78,8 +78,8 @@ class EnhancedNewsService {
       }
 
       return result;
-    } catch (error) {
-      console.error('获取股票新闻失败:', error);
+    } catch (err) {
+          console.error('获取股票新闻失败:', err);
       
       // 如果真实API失败，回退到模拟数据
       if (NEWS_CONFIG.mode === 'real' || NEWS_CONFIG.mode === 'hybrid') {
@@ -125,8 +125,8 @@ class EnhancedNewsService {
             source: `real_${apiType}`
           };
         }
-      } catch (error) {
-        console.warn(`${apiType} API失败:`, error.message);
+      } catch (err) {
+        console.warn(`${apiType} API失败:`, err.message);
         continue;
       }
     }
@@ -154,7 +154,7 @@ class EnhancedNewsService {
         total: realNews.total + mockNews.total,
         source: 'hybrid'
       };
-    } catch (error) {
+    } catch {
       // 如果真实新闻完全失败，使用模拟新闻
       return await this.getMockNews(stockCode, limit);
     }
@@ -214,7 +214,7 @@ class EnhancedNewsService {
   async getNewsDetail(newsId) {
     try {
       // 先在缓存中查找
-      for (const [key, cached] of this.cache.entries()) {
+      for (const [, cached] of this.cache.entries()) {
         const found = cached.data.data.find(news => news.id === newsId);
         if (found) {
           return { data: found, total: 1, source: 'cache' };
@@ -251,7 +251,7 @@ class EnhancedNewsService {
       const allNews = [];
       
       // 收集缓存中的真实新闻
-      for (const [key, cached] of this.cache.entries()) {
+      for (const [, cached] of this.cache.entries()) {
         if (cached.data.source && cached.data.source.startsWith('real')) {
           allNews.push(...cached.data.data);
         }

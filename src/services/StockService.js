@@ -1,11 +1,11 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { mockStocks } from './mockData.js';
 
-// 创建axios实例
-const api = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
-});
+// 创建axios实例（已注释，当前未使用）
+// const api = axios.create({
+//   baseURL: '/api',
+//   timeout: 10000,
+// });
 
 class StockService {
   /**

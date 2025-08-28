@@ -29,7 +29,7 @@ function useDebounce(value, delay) {
  * @param {Array} deps 依赖数组
  * @returns {Function} 防抖后的回调函数
  */
-function useDebouncedCallback(callback, delay, deps) {
+function useDebouncedCallback(callback, delay) {
   const [debounceTimer, setDebounceTimer] = useState(null);
 
   const debouncedCallback = useCallback((...args) => {
@@ -42,7 +42,7 @@ function useDebouncedCallback(callback, delay, deps) {
     }, delay);
 
     setDebounceTimer(newTimer);
-  }, deps);
+  }, [callback, delay, debounceTimer]);
 
   // 清理定时器
   useEffect(() => {
